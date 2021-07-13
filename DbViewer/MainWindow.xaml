@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="SQLite DB Viewer" Icon="Imageres_dll_187.ico"
+        Title="SQLite DB 查看器" Icon="Imageres_dll_187.ico"
         Height="450" Width="800" MinHeight="300" MinWidth="600"
         ResizeMode="CanResizeWithGrip" Closing="MainWindow_Closing">
   <Window.Resources>
