@@ -17,7 +17,7 @@ namespace DbViewer
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Uri uri = (sender as Hyperlink).NavigateUri;
+            Uri uri = ((Hyperlink)sender).NavigateUri;
             Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
         }
     }
