@@ -145,9 +145,6 @@
               </Trigger>
             </Style.Triggers>
           </Style>
-          <ContextMenu x:Key="ItemMenu">
-            <MenuItem Header="关闭连接" Click="CloseConnection_Click" />
-          </ContextMenu>
         </TreeView.Resources>
         <d:TreeViewItem Header="Item 1" d:MenuItem.Click="CloseConnection_Click">
           <TreeViewItem.ContextMenu>
