@@ -6,7 +6,9 @@
         mc:Ignorable="d"
         Title="SQLite DB 查看器" Icon="Imageres_dll_187.ico"
         Height="450" Width="800" MinHeight="300" MinWidth="600"
-        ResizeMode="CanResizeWithGrip" Closing="MainWindow_Closing">
+        AllowDrop="True"
+        ResizeMode="CanResizeWithGrip" Closing="MainWindow_Closing"
+        DragOver="Window_DragOver" Drop="Window_Drop">
   <Window.Resources>
     <RoutedCommand x:Key="OpenCommand" />
     <RoutedCommand x:Key="RefreshCommand" />
