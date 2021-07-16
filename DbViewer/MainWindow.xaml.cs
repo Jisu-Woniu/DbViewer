@@ -117,17 +117,20 @@ namespace DbViewer
                 _activeConnections.Add(connection);
                 SqliteDataReader reader = command.ExecuteReader();
                 List<string> tableList = reader.OfType<IDataRecord>()
-                    .Select(x => x.GetString(0))
-                    .OrderBy(x => x).ToList();
+                    .Select(r => r.GetString(0))
+                    .OrderBy(s => s).ToList();
                 TreeViewItem node = new()
                 {
                     Header = openFileDialog.SafeFileName,
                     DataContext = connection,
                     ItemsSource = tableList,
-                    ContextMenu = Navigator.Resources["ItemMenu"] as ContextMenu
+                    ContextMenu = new()
                 };
                 if (node.ContextMenu != null)
                 {
+                    MenuItem item = new() { Header = "关闭连接" };
+                    item.Click += CloseConnection_Click;
+                    node.ContextMenu.Items.Add(item);
                     node.ContextMenu.DataContext = node;
                 }
 
@@ -167,6 +170,88 @@ namespace DbViewer
                 finally
                 {
                     command.Connection.Close();
+                }
+            }
+        }
+
+        private void Window_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.None;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Any(s => s.EndsWith(".db", StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    e.Effects = DragDropEffects.Link;
+                }
+            }
+            e.Handled = true;
+        }
+
+        private void Window_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] data = (string[])e.Data.GetData(DataFormats.FileDrop);
+                //MessageBox.Show(string.Join('\n', data));
+                IEnumerable<string> files = data.Where(x =>
+                    x.EndsWith(".db", StringComparison.InvariantCultureIgnoreCase));
+                foreach (string file in files)
+                {
+                    SqliteConnectionStringBuilder connectionStringBuilder = new()
+                    {
+                        DataSource = file
+                    };
+                    SqliteConnection connection = new()
+                    {
+                        ConnectionString = connectionStringBuilder.ToString()
+                    };
+                    using SqliteCommand command = new()
+                    {
+                        CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';",
+                        Connection = connection
+                    };
+                    try
+                    {
+                        connection.Open();
+                        _activeConnections.Add(connection);
+                        SqliteDataReader reader = command.ExecuteReader();
+                        List<string> tableList = reader.OfType<IDataRecord>()
+                            .Select(r => r.GetString(0))
+                            .OrderBy(s => s).ToList();
+                        TreeViewItem node = new()
+                        {
+                            Header = file[(file.LastIndexOf('\\') + 1)..],
+                            DataContext = connection,
+                            ItemsSource = tableList,
+                            ContextMenu = new()
+                        };
+                        if (node.ContextMenu != null)
+                        {
+                            MenuItem item = new() { Header = "关闭连接" };
+                            item.Click += CloseConnection_Click;
+                            node.ContextMenu.Items.Add(item);
+                            node.ContextMenu.DataContext = node;
+                        }
+
+                        _ = Navigator.Items.Add(node);
+                    }
+                    catch (SqliteException exception)
+                    {
+                        _ = MessageBox.Show(this,
+                            $"SQLite 错误：\n{exception.Message}\n{exception.StackTrace}",
+                            "SQLite 错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (Exception exception)
+                    {
+                        _ = MessageBox.Show(this,
+                            $"未知错误：\n{exception.Message}\n{exception.StackTrace}",
+                            "未知错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
