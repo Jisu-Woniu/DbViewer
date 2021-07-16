@@ -1,29 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net5.0-windows</TargetFramework>
-		<UseWPF>true</UseWPF>
-		<ApplicationIcon>Imageres_dll_187.ico</ApplicationIcon>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Imageres_dll_187.ico</ApplicationIcon>
+  </PropertyGroup>
 
-	<ItemGroup>
-	</ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.7" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="gplv3-or-later.png" />
-		<Resource Include="Imageres_dll_076.png" />
-		<Resource Include="Imageres_dll_187.ico" />
-		<Resource Include="Imageres_dll_228.png" />
-		<Resource Include="Shell32_dll_046.png" />
-		<Resource Include="Shell32_dll_132.png" />
-		<Resource Include="Shell32_dll_239.png" />
-		<Resource Include="Shell32_dll_259.png" />
-		<Resource Include="sqlite370.jpg" />
-		<Resource Include="Imageres_dll_076.ico" />
-	</ItemGroup>
+  <ItemGroup>
+    <Resource Include="gplv3-or-later.png" />
+    <Resource Include="Imageres_dll_076.png" />
+    <Resource Include="Imageres_dll_187.ico" />
+    <Resource Include="Imageres_dll_228.png" />
+    <Resource Include="Shell32_dll_046.png" />
+    <Resource Include="Shell32_dll_132.png" />
+    <Resource Include="sqlite370.jpg" />
+    <Resource Include="Imageres_dll_076.ico" />
+  </ItemGroup>
 </Project>
