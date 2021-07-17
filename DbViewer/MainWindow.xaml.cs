@@ -16,21 +16,15 @@ namespace DbViewer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        public MainWindow() => InitializeComponent();
 
         private readonly HashSet<SqliteConnection> _activeConnections = new();
 
-        private void AboutMenu_Click(object sender, RoutedEventArgs e)
+        private void AboutMenu_Click(object sender, RoutedEventArgs e) => new AboutWindow()
         {
-            new AboutWindow()
-            {
-                Owner = this,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            }.Show();
-        }
+            Owner = this,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        }.ShowDialog();
 
         private void NavigatorItem_Selected(object sender, RoutedEventArgs e)
         {

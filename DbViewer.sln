@@ -1,9 +1,13 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbViewer", "DbViewer\DbViewer.csproj", "{BB1DB479-E56A-47BF-9683-74046CBE4FC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbViewer", "DbViewer\DbViewer.csproj", "{BB1DB479-E56A-47BF-9683-74046CBE4FC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA91320A-06A8-41D7-96FA-C2F58238A3E0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
