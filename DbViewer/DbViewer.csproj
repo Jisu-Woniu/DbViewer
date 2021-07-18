@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Imageres_dll_077.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,7 @@
   <ItemGroup>
     <Resource Include="gplv3-or-later.png" />
     <Resource Include="Imageres_dll_076.png" />
+    <Resource Include="Imageres_dll_077.png" />
     <Resource Include="Imageres_dll_187.ico" />
     <Resource Include="Imageres_dll_228.png" />
     <Resource Include="Shell32_dll_046.png" />

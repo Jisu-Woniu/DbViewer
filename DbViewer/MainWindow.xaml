@@ -146,7 +146,7 @@
             </Style.Triggers>
           </Style>
         </TreeView.Resources>
-        <d:TreeViewItem Header="Item 1" d:MenuItem.Click="CloseConnection_Click">
+        <d:TreeViewItem Header="Item 1">
           <TreeViewItem.ContextMenu>
             <ContextMenu>
               <MenuItem Header="关闭连接" />
@@ -163,7 +163,6 @@
       </TreeView>
       <GridSplitter Grid.Column="1" Width="5" Height="50" d:HorizontalAlignment="Center"
                     Background="Transparent" BorderBrush="Gray" BorderThickness="0.5, 0" />
-
       <DataGrid x:Name="DataViewer" Grid.Column="2" Margin="2.5,10,10,10" Background="White" />
     </Grid>
   </DockPanel>

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DbViewer
 {
@@ -58,7 +60,43 @@ namespace DbViewer
                 {
                     command.Connection.Close();
                 }
+
+                command.CommandText = $"SELECT name FROM pragma_table_info('{tvi.Header}') WHERE pk != 0;";
+                try
+                {
+                    command.Connection.Open();
+                    using SqliteDataReader reader = command.ExecuteReader();
+                    List<string> key = reader.OfType<IDataRecord>().Select(r => r.GetString(0)).ToList();
+                    foreach (DataGridColumn column in DataViewer.Columns)
+                    {
+                        string header = column.Header.ToString();
+                        if (key.Contains(header))
+                            column.Header = //new TextBlock() { Foreground = Brushes.Red, Text = header };
+                                new StackPanel()
+                                {
+                                    Orientation = Orientation.Horizontal,
+                                    Children =
+                                    {
+                                        new TextBlock() {Text = header},
+                                        new Image()
+                                        {
+                                            Height = 15,
+                                            Margin = new Thickness(5, 0, 0, 0),
+                                            Stretch = Stretch.Uniform,
+                                            Source = new BitmapImage(new Uri("/Imageres_dll_077.png",
+                                                UriKind.Relative))
+                                        }
+                                    }
+                                };
+                    }
+                }
+                finally
+                {
+                    command.Connection.Close();
+                }
             }
+
+            e.Handled = true;
         }
 
         private void CloseConnection_Click(object sender, RoutedEventArgs e)
@@ -84,22 +122,13 @@ namespace DbViewer
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = "SQLite 数据库文件 (*.db)|*.db"
-            };
+            OpenFileDialog openFileDialog = new() { Filter = "SQLite 数据库文件 (*.db)|*.db" };
 
             if (openFileDialog.ShowDialog(this) != true)
                 return;
 
-            SqliteConnectionStringBuilder connectionStringBuilder = new()
-            {
-                DataSource = openFileDialog.FileName
-            };
-            SqliteConnection connection = new()
-            {
-                ConnectionString = connectionStringBuilder.ToString()
-            };
+            SqliteConnectionStringBuilder connectionStringBuilder = new() { DataSource = openFileDialog.FileName };
+            SqliteConnection connection = new() { ConnectionString = connectionStringBuilder.ToString() };
             using SqliteCommand command = new()
             {
                 CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';",
@@ -179,6 +208,7 @@ namespace DbViewer
                     e.Effects = DragDropEffects.Link;
                 }
             }
+
             e.Handled = true;
         }
 
@@ -192,14 +222,8 @@ namespace DbViewer
                     x.EndsWith(".db", StringComparison.InvariantCultureIgnoreCase));
                 foreach (string file in files)
                 {
-                    SqliteConnectionStringBuilder connectionStringBuilder = new()
-                    {
-                        DataSource = file
-                    };
-                    SqliteConnection connection = new()
-                    {
-                        ConnectionString = connectionStringBuilder.ToString()
-                    };
+                    SqliteConnectionStringBuilder connectionStringBuilder = new() { DataSource = file };
+                    SqliteConnection connection = new() { ConnectionString = connectionStringBuilder.ToString() };
                     using SqliteCommand command = new()
                     {
                         CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';",
