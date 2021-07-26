@@ -71,11 +71,11 @@ namespace DbViewer
                     {
                         string header = column.Header.ToString();
                         if (key.Contains(header))
-                            column.Header = //new TextBlock() { Foreground = Brushes.Red, Text = header };
-                                new StackPanel()
-                                {
-                                    Orientation = Orientation.Horizontal,
-                                    Children =
+                        {
+                            column.Header = new StackPanel()
+                            {
+                                Orientation = Orientation.Horizontal,
+                                Children =
                                     {
                                         new TextBlock() {Text = header},
                                         new Image()
@@ -87,7 +87,8 @@ namespace DbViewer
                                                 UriKind.Relative))
                                         }
                                     }
-                                };
+                            };
+                        }
                     }
                 }
                 finally
