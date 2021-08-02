@@ -21,6 +21,7 @@ namespace DbViewer
         public MainWindow() => InitializeComponent();
 
         private readonly HashSet<SqliteConnection> _activeConnections = new();
+        private string _header;
 
         private void AboutMenu_Click(object sender, RoutedEventArgs e) => new AboutWindow()
         {
@@ -38,6 +39,7 @@ namespace DbViewer
 
             if (e.OriginalSource is TreeViewItem tvi && e.Source is TreeViewItem parent)
             {
+                _header = tvi.Header as string;
                 SqliteCommand command = new()
                 {
                     CommandText = $"SELECT * FROM \'{tvi.Header}\'",
@@ -60,12 +62,15 @@ namespace DbViewer
                 {
                     command.Connection.Close();
                 }
-
-                command.CommandText = $"SELECT name FROM pragma_table_info('{tvi.Header}') WHERE pk != 0;";
+                SqliteCommand commandKey = new()
+                {
+                    Connection = command.Connection,
+                    CommandText = $"SELECT name FROM pragma_table_info('{tvi.Header}') WHERE pk != 0;"
+                };
                 try
                 {
-                    command.Connection.Open();
-                    using SqliteDataReader reader = command.ExecuteReader();
+                    commandKey.Connection.Open();
+                    using SqliteDataReader reader = commandKey.ExecuteReader();
                     List<string> key = reader.OfType<IDataRecord>().Select(r => r.GetString(0)).ToList();
                     foreach (DataGridColumn column in DataViewer.Columns)
                     {
@@ -195,7 +200,47 @@ namespace DbViewer
                 {
                     command.Connection.Close();
                 }
+                SqliteCommand commandKey = new()
+                {
+                    Connection = command.Connection,
+                    CommandText = $"SELECT name FROM pragma_table_info('{_header}') WHERE pk != 0;"
+                };
+                try
+                {
+                    commandKey.Connection.Open();
+                    using SqliteDataReader reader = commandKey.ExecuteReader();
+                    List<string> key = reader.OfType<IDataRecord>().Select(r => r.GetString(0)).ToList();
+                    foreach (DataGridColumn column in DataViewer.Columns)
+                    {
+                        string header = column.Header.ToString();
+                        if (key.Contains(header))
+                        {
+                            column.Header = new StackPanel()
+                            {
+                                Orientation = Orientation.Horizontal,
+                                Children =
+                                    {
+                                        new TextBlock() {Text = header},
+                                        new Image()
+                                        {
+                                            Height = 15,
+                                            Margin = new Thickness(5, 0, 0, 0),
+                                            Stretch = Stretch.Uniform,
+                                            Source = new BitmapImage(new Uri("/Imageres_dll_077.png",
+                                                UriKind.Relative))
+                                        }
+                                    }
+                            };
+                        }
+                    }
+                }
+                finally
+                {
+                    command.Connection.Close();
+                }
             }
+
+            e.Handled = true;
         }
 
         private void Window_DragOver(object sender, DragEventArgs e)
