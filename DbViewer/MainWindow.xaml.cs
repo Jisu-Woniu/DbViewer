@@ -75,31 +75,34 @@ namespace DbViewer
                     List<string> key = reader.OfType<IDataRecord>().Select(r => r.GetString(0)).ToList();
                     foreach (DataGridColumn column in DataViewer.Columns)
                     {
-                        string header = column.Header.ToString();
-                        if (key.Contains(header))
+                        string columnHeader = column.Header as string;
+                        if (key.Contains(columnHeader))
                         {
                             column.Header = new StackPanel()
                             {
                                 Orientation = Orientation.Horizontal,
                                 Children =
+                                {
+                                    new TextBlock()
                                     {
-                                        new TextBlock() {Text = header},
-                                        new Image()
-                                        {
-                                            Height = 15,
-                                            Margin = new Thickness(5, 0, 0, 0),
-                                            Stretch = Stretch.Uniform,
-                                            Source = new BitmapImage(new Uri("/Imageres_dll_077.png",
-                                                UriKind.Relative))
-                                        }
+                                        Text = columnHeader
+                                    },
+                                    new Image()
+                                    {
+                                        Height = 15,
+                                        Margin = new Thickness(5, 0, 0, 0),
+                                        Stretch = Stretch.Uniform,
+                                        Source = new BitmapImage(new Uri("/Imageres_dll_077.png",
+                                            UriKind.Relative))
                                     }
+                                }
                             };
                         }
                     }
                 }
                 finally
                 {
-                    command.Connection.Close();
+                    commandKey.Connection.Close();
                 }
             }
 
@@ -158,7 +161,10 @@ namespace DbViewer
                 };
                 if (node.ContextMenu != null)
                 {
-                    MenuItem item = new() { Header = "关闭连接" };
+                    MenuItem item = new()
+                    {
+                        Header = "关闭连接"
+                    };
                     item.Click += CloseConnection_Click;
                     node.ContextMenu.Items.Add(item);
                     node.ContextMenu.DataContext = node;
@@ -213,15 +219,15 @@ namespace DbViewer
                     List<string> key = reader.OfType<IDataRecord>().Select(r => r.GetString(0)).ToList();
                     foreach (DataGridColumn column in DataViewer.Columns)
                     {
-                        string header = column.Header.ToString();
-                        if (key.Contains(header))
+                        string columnHeader = column.Header as string;
+                        if (key.Contains(columnHeader))
                         {
                             column.Header = new StackPanel()
                             {
                                 Orientation = Orientation.Horizontal,
                                 Children =
                                     {
-                                        new TextBlock() {Text = header},
+                                        new TextBlock() {Text = columnHeader},
                                         new Image()
                                         {
                                             Height = 15,
@@ -237,7 +243,7 @@ namespace DbViewer
                 }
                 finally
                 {
-                    command.Connection.Close();
+                    commandKey.Connection.Close();
                 }
             }
 
