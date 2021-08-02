@@ -33,6 +33,7 @@ namespace DbViewer
         {
             if (e.OriginalSource == e.Source)
             {
+                _header = null;
                 e.Handled = true;
                 return;
             }
