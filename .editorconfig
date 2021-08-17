@@ -13,7 +13,7 @@ tab_width = 4
 
 # 新行首选项
 end_of_line = crlf
-insert_final_newline =true
+insert_final_newline = true
 
 #### .NET 编码约定 ####
 
@@ -228,6 +228,3 @@ dotnet_naming_style.begin_with__.required_prefix = _
 dotnet_naming_style.begin_with__.required_suffix =
 dotnet_naming_style.begin_with__.word_separator =
 dotnet_naming_style.begin_with__.capitalization = camel_case
-
-[*.{cs,vb}]
-end_of_line=lf
