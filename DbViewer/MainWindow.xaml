@@ -161,7 +161,7 @@
           <TreeViewItem Header="Item 2.3" />
         </d:TreeViewItem>
       </TreeView>
-      <GridSplitter Grid.Column="1" Width="5" Height="50" d:HorizontalAlignment="Center"
+      <GridSplitter Grid.Column="1" Width="5" Height="50" HorizontalAlignment="Center"
                     Background="Transparent" BorderBrush="Gray" BorderThickness="0.5, 0" />
       <DataGrid x:Name="DataViewer" Grid.Column="2" Margin="2.5,10,10,10" Background="White" />
     </Grid>
