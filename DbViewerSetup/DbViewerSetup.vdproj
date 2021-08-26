@@ -43,6 +43,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -177,15 +193,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DbViewer"
-        "ProductCode" = "8:{8BEC5EF2-8BD7-45D1-947E-1BBEBB8E356C}"
-        "PackageCode" = "8:{704DBB6E-55B0-4B40-B305-DE2F45661B90}"
+        "ProductCode" = "8:{ACCCE3CD-82D0-49AA-977D-25F137F3F420}"
+        "PackageCode" = "8:{417121C7-586A-46A1-9DCC-51DCE8A9FC37}"
         "UpgradeCode" = "8:{B3FE1FE2-726E-43E5-B3F6-176334302C66}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.4.0"
+        "ProductVersion" = "8:0.5.0"
         "Manufacturer" = "8:SAST 2021 C#"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/SAST-2021-CSharp/DbViewer"
