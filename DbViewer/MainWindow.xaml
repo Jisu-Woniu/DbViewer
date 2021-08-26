@@ -62,9 +62,9 @@
     </Menu>
     <Grid Background="#FFF0F0F0">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="220" />
+        <ColumnDefinition Width="*" MinWidth="12.5" />
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition />
+        <ColumnDefinition Width="3*" MinWidth="100"/>
       </Grid.ColumnDefinitions>
       <TreeView x:Name="Navigator" Margin="10,10,2.5,10" TreeViewItem.Selected="NavigatorItem_Selected">
         <TreeView.Resources>
@@ -162,7 +162,7 @@
         </d:TreeViewItem>
       </TreeView>
       <GridSplitter Grid.Column="1" Width="5" Height="50" HorizontalAlignment="Center"
-                    Background="Transparent" BorderBrush="Gray" BorderThickness="0.5, 0" />
+                    Background="Transparent" BorderBrush="Gray" BorderThickness="0.5, 0" ResizeBehavior="PreviousAndNext" />
       <DataGrid x:Name="DataViewer" Grid.Column="2" Margin="2.5,10,10,10" Background="White" />
     </Grid>
   </DockPanel>
