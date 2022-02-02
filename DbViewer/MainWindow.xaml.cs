@@ -23,7 +23,8 @@ namespace DbViewer
 
         private void AboutMenu_Click(object sender, RoutedEventArgs e) => new AboutWindow
         {
-            Owner = this, WindowStartupLocation = WindowStartupLocation.CenterOwner
+            Owner = this,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
         }.ShowDialog();
 
         private void NavigatorItem_Selected(object sender, RoutedEventArgs e)
@@ -131,7 +132,8 @@ namespace DbViewer
             SqliteConnection connection = new() { ConnectionString = connectionStringBuilder.ToString() };
             using SqliteCommand command = new()
             {
-                CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';", Connection = connection
+                CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';",
+                Connection = connection
             };
             try
             {
