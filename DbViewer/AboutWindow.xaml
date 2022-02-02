@@ -5,31 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="关于" Height="330" Width="420" Icon="/Imageres_dll_076.ico" ResizeMode="NoResize">
-  <StackPanel VerticalAlignment="Center">
-    <TextBlock TextAlignment="Center" FontSize="32" Margin="5">
-      SQLite DB 查看器
-    </TextBlock>
-    <TextBlock TextAlignment="Center" FontSize="16" Margin="5">
-      由 SAST 2021 C# 组开发
-    </TextBlock>
-    <DockPanel Margin="5">
-      <Image x:Name="Sqlite" DockPanel.Dock="Left" Stretch="Uniform" Source="/sqlite370.jpg" Width="180" Height="80" Margin="0" />
-      <TextBlock TextWrapping="Wrap" FontSize="14.5" VerticalAlignment="Center" Margin="20,5">
-        <Hyperlink NavigateUri="https://sqlite.org/index.html" Click="Hyperlink_Click">SQLite</Hyperlink> 是 SQLite 开发团队的作品，其软件与源码属于公有领域。
-      </TextBlock>
-    </DockPanel>
-    <TextBlock TextWrapping="Wrap" Margin="5">
-      使用 <Hyperlink NavigateUri="https://docs.microsoft.com/dotnet/standard/data/sqlite/" Click="Hyperlink_Click">Microsoft.Data.Sqlite</Hyperlink> 进行数据库访问。
-      这是一个由 Microsoft 公司开发的，用于 SQLite 的 ADO.NET 适配器，以 Apache-2.0 协议发布。
-    </TextBlock>
-    <TextBlock Margin="5" TextAlignment="Center">
-      由 Windows Presentation Foundation 与 .NET 5.0 提供运行时支持。
-    </TextBlock>
-    <DockPanel>
-      <Image Source="/gplv3-or-later.png" DockPanel.Dock="Right" Margin="5,0,10,0" Height="40" Stretch="Uniform" />
-      <TextBlock Margin="5" TextAlignment="Center" VerticalAlignment="Center">
-      本程序使用 <Hyperlink NavigateUri="https://www.gnu.org/licenses/gpl.html" Click="Hyperlink_Click">GPLv3 或以后版本</Hyperlink>发布并开源。
-      </TextBlock>
-    </DockPanel>
-  </StackPanel>
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock TextAlignment="Center" FontSize="32" Margin="5">
+            SQLite DB 查看器
+        </TextBlock>
+        <TextBlock TextAlignment="Center" FontSize="16" Margin="5">
+            由 SAST 2021 C# 组开发
+        </TextBlock>
+        <DockPanel Margin="5">
+            <Image x:Name="Sqlite" DockPanel.Dock="Left" Stretch="Uniform" Source="/sqlite370.jpg" Width="180"
+                   Height="80" Margin="0" />
+            <TextBlock TextWrapping="Wrap" FontSize="14.5" VerticalAlignment="Center" Margin="20,5">
+                <Hyperlink NavigateUri="https://sqlite.org/index.html" Click="Hyperlink_Click">SQLite</Hyperlink> 是 SQLite 开发团队的作品，其软件与源码属于公有领域。
+            </TextBlock>
+        </DockPanel>
+        <TextBlock TextWrapping="Wrap" Margin="5">
+            使用
+            <Hyperlink NavigateUri="https://docs.microsoft.com/dotnet/standard/data/sqlite/" Click="Hyperlink_Click">Microsoft.Data.Sqlite</Hyperlink>
+            进行数据库访问。
+            这是一个由 Microsoft 公司开发的，用于 SQLite 的 ADO.NET 适配器，以 Apache-2.0 协议发布。
+        </TextBlock>
+        <TextBlock Margin="5" TextAlignment="Center">
+            由 Windows Presentation Foundation 与 .NET 5.0 提供运行时支持。
+        </TextBlock>
+        <DockPanel>
+            <Image Source="/gplv3-or-later.png" DockPanel.Dock="Right" Margin="5,0,10,0" Height="40" Stretch="Uniform" />
+            <TextBlock Margin="5" TextAlignment="Center" VerticalAlignment="Center">
+                本程序使用
+                <Hyperlink NavigateUri="https://www.gnu.org/licenses/gpl.html" Click="Hyperlink_Click">GPLv3 或以后版本</Hyperlink>
+                发布并开源。
+            </TextBlock>
+        </DockPanel>
+    </StackPanel>
 </Window>

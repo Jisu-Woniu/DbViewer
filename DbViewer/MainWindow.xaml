@@ -9,161 +9,162 @@
         AllowDrop="True"
         ResizeMode="CanResizeWithGrip" Closing="MainWindow_Closing"
         DragOver="Window_DragOver" Drop="Window_Drop">
-  <Window.Resources>
-    <RoutedCommand x:Key="OpenCommand" />
-    <RoutedCommand x:Key="RefreshCommand" />
-  </Window.Resources>
-  <Window.InputBindings>
-    <KeyBinding Command="{StaticResource OpenCommand}"
-                Modifiers="Control" Key="O" />
-    <KeyBinding Command="{StaticResource RefreshCommand}"
-                Key="F5" />
-  </Window.InputBindings>
-  <Window.CommandBindings>
-    <CommandBinding Command="{StaticResource OpenCommand}"
-                    Executed="OpenCommand_Executed" />
-    <CommandBinding x:Name="RefreshCommand" Command="{StaticResource RefreshCommand}"
-                    Executed="RefreshCommand_Executed" />
-  </Window.CommandBindings>
+    <Window.Resources>
+        <RoutedCommand x:Key="OpenCommand" />
+        <RoutedCommand x:Key="RefreshCommand" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Command="{StaticResource OpenCommand}"
+                    Modifiers="Control" Key="O" />
+        <KeyBinding Command="{StaticResource RefreshCommand}"
+                    Key="F5" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource OpenCommand}"
+                        Executed="OpenCommand_Executed" />
+        <CommandBinding x:Name="RefreshCommand" Command="{StaticResource RefreshCommand}"
+                        Executed="RefreshCommand_Executed" />
+    </Window.CommandBindings>
 
-  <DockPanel>
-    <Menu DockPanel.Dock="Top" KeyboardNavigation.DirectionalNavigation="Contained">
-      <MenuItem Header="文件 (_F)" IsTabStop="False"
-                KeyboardNavigation.DirectionalNavigation="Contained">
-        <MenuItem Header="打开 (_O)..." Command="{StaticResource OpenCommand}"
-                  InputGestureText="Ctrl+O">
-          <MenuItem.Icon>
-            <Image Source="/Shell32_dll_046.png" />
-          </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="退出 (_X)" Click="ExitMenu_Click"
-                  InputGestureText="Alt+F4">
-          <MenuItem.Icon>
-            <Image Source="/Shell32_dll_132.png" />
-          </MenuItem.Icon>
-        </MenuItem>
-      </MenuItem>
-      <MenuItem Header="连接 (_L)" IsTabStop="False">
-        <MenuItem x:Name="RefreshMenu" Header="刷新 (_R)"
-                  Command="{StaticResource RefreshCommand}"
-                  InputGestureText="F5">
-          <MenuItem.Icon>
-            <Image Source="/Imageres_dll_228.png" />
-          </MenuItem.Icon>
-        </MenuItem>
-      </MenuItem>
-      <MenuItem Header="帮助 (_H)" IsTabStop="False">
-        <MenuItem Header="关于 (_A)" Click="AboutMenu_Click">
-          <MenuItem.Icon>
-            <Image Source="/Imageres_dll_076.png" />
-          </MenuItem.Icon>
-        </MenuItem>
-      </MenuItem>
-    </Menu>
-    <Grid Background="#FFF0F0F0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" MinWidth="12.5" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="3*" MinWidth="100"/>
-      </Grid.ColumnDefinitions>
-      <TreeView x:Name="Navigator" Margin="10,10,2.5,10" TreeViewItem.Selected="NavigatorItem_Selected">
-        <TreeView.Resources>
-          <Style TargetType="TreeViewItem">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="HorizontalContentAlignment"
-                    Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-            <Setter Property="VerticalContentAlignment"
-                    Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-            <Setter Property="Padding" Value="1,0,0,0" />
-            <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
-            <Setter Property="IsExpanded" Value="True" />
-            <Setter Property="Template">
-              <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition MinWidth="19" Width="Auto" />
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="Auto" />
-                      <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <ToggleButton x:Name="Expander" ClickMode="Press"
-                                  IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                  Style="{StaticResource ExpandCollapseToggleStyle}" />
-                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
-                            BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}"
-                            Grid.Row="0" Grid.Column="1" Padding="{TemplateBinding Padding}"
-                            SnapsToDevicePixels="true">
-                      <ContentPresenter x:Name="PART_Header" ContentSource="Header"
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-                    <ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1"
-                                    Grid.Row="1" />
-                  </Grid>
-                  <ControlTemplate.Triggers>
-                    <Trigger Property="IsExpanded" Value="false">
-                      <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed" />
-                    </Trigger>
-                    <Trigger Property="HasItems" Value="false">
-                      <Setter Property="Visibility" TargetName="Expander" Value="Hidden" />
-                    </Trigger>
-                    <Trigger Property="IsSelected" Value="true">
-                      <Setter Property="Background" TargetName="Bd" Value="#CCE8FF" />
-                      <Setter Property="BorderBrush" Value="#99D1FF" />
-                    </Trigger>
-                    <MultiTrigger>
-                      <MultiTrigger.Conditions>
-                        <Condition Property="IsSelected" Value="true" />
-                        <Condition Property="IsSelectionActive" Value="false" />
-                      </MultiTrigger.Conditions>
-                      <Setter Property="Background" TargetName="Bd" Value="#FFD9D9D9" />
-                      <Setter Property="BorderBrush" Value="#FFD9D9D9" />
-                    </MultiTrigger>
-                    <Trigger Property="IsEnabled" Value="false">
-                      <Setter Property="Foreground"
-                              Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                    </Trigger>
-                  </ControlTemplate.Triggers>
-                </ControlTemplate>
-              </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-              <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
-                <Setter Property="ItemsPanel">
-                  <Setter.Value>
-                    <ItemsPanelTemplate>
-                      <VirtualizingStackPanel />
-                    </ItemsPanelTemplate>
-                  </Setter.Value>
-                </Setter>
-              </Trigger>
-            </Style.Triggers>
-          </Style>
-        </TreeView.Resources>
-        <d:TreeViewItem Header="Item 1">
-          <TreeViewItem.ContextMenu>
-            <ContextMenu>
-              <MenuItem Header="关闭连接" />
-            </ContextMenu>
-          </TreeViewItem.ContextMenu>
-          <TreeViewItem Header="Item 1.1" />
-          <TreeViewItem Header="Item 1.2" />
-        </d:TreeViewItem>
-        <d:TreeViewItem Header="Item 2">
-          <TreeViewItem Header="Item 2.1" />
-          <TreeViewItem Header="Item 2.2" />
-          <TreeViewItem Header="Item 2.3" />
-        </d:TreeViewItem>
-      </TreeView>
-      <GridSplitter Grid.Column="1" Width="5" Height="50" HorizontalAlignment="Center"
-                    Background="Transparent" BorderBrush="Gray" BorderThickness="0.5, 0" ResizeBehavior="PreviousAndNext" />
-      <DataGrid x:Name="DataViewer" Grid.Column="2" Margin="2.5,10,10,10" Background="White" />
-    </Grid>
-  </DockPanel>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" KeyboardNavigation.DirectionalNavigation="Contained">
+            <MenuItem Header="文件 (_F)" IsTabStop="False"
+                      KeyboardNavigation.DirectionalNavigation="Contained">
+                <MenuItem Header="打开 (_O)..." Command="{StaticResource OpenCommand}"
+                          InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Image Source="/Shell32_dll_046.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="退出 (_X)" Click="ExitMenu_Click"
+                          InputGestureText="Alt+F4">
+                    <MenuItem.Icon>
+                        <Image Source="/Shell32_dll_132.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="连接 (_L)" IsTabStop="False">
+                <MenuItem x:Name="RefreshMenu" Header="刷新 (_R)"
+                          Command="{StaticResource RefreshCommand}"
+                          InputGestureText="F5">
+                    <MenuItem.Icon>
+                        <Image Source="/Imageres_dll_228.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="帮助 (_H)" IsTabStop="False">
+                <MenuItem Header="关于 (_A)" Click="AboutMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Imageres_dll_076.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Background="#FFF0F0F0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="12.5" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="3*" MinWidth="100" />
+            </Grid.ColumnDefinitions>
+            <TreeView x:Name="Navigator" Margin="10,10,2.5,10" TreeViewItem.Selected="NavigatorItem_Selected">
+                <TreeView.Resources>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                        <Setter Property="VerticalContentAlignment"
+                                Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                        <Setter Property="Padding" Value="1,0,0,0" />
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+                        <Setter Property="IsExpanded" Value="True" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="19" Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <ToggleButton x:Name="Expander" ClickMode="Press"
+                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Style="{StaticResource ExpandCollapseToggleStyle}" />
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}"
+                                                Grid.Row="0" Grid.Column="1" Padding="{TemplateBinding Padding}"
+                                                SnapsToDevicePixels="true">
+                                            <ContentPresenter x:Name="PART_Header" ContentSource="Header"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Border>
+                                        <ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1"
+                                                        Grid.Row="1" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsExpanded" Value="false">
+                                            <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed" />
+                                        </Trigger>
+                                        <Trigger Property="HasItems" Value="false">
+                                            <Setter Property="Visibility" TargetName="Expander" Value="Hidden" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="true">
+                                            <Setter Property="Background" TargetName="Bd" Value="#CCE8FF" />
+                                            <Setter Property="BorderBrush" Value="#99D1FF" />
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="true" />
+                                                <Condition Property="IsSelectionActive" Value="false" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" TargetName="Bd" Value="#FFD9D9D9" />
+                                            <Setter Property="BorderBrush" Value="#FFD9D9D9" />
+                                        </MultiTrigger>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.Resources>
+                <d:TreeViewItem Header="Item 1">
+                    <TreeViewItem.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="关闭连接" />
+                        </ContextMenu>
+                    </TreeViewItem.ContextMenu>
+                    <TreeViewItem Header="Item 1.1" />
+                    <TreeViewItem Header="Item 1.2" />
+                </d:TreeViewItem>
+                <d:TreeViewItem Header="Item 2">
+                    <TreeViewItem Header="Item 2.1" />
+                    <TreeViewItem Header="Item 2.2" />
+                    <TreeViewItem Header="Item 2.3" />
+                </d:TreeViewItem>
+            </TreeView>
+            <GridSplitter Grid.Column="1" Width="5" Height="50" HorizontalAlignment="Center"
+                          Background="Transparent" BorderBrush="Gray" BorderThickness="0.5, 0"
+                          ResizeBehavior="PreviousAndNext" />
+            <DataGrid x:Name="DataViewer" Grid.Column="2" Margin="2.5,10,10,10" Background="White" />
+        </Grid>
+    </DockPanel>
 </Window>

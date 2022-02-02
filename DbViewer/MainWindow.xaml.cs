@@ -1,4 +1,3 @@
-using Microsoft.Data.Sqlite;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -14,19 +13,17 @@ using System.Windows.Media.Imaging;
 namespace DbViewer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly HashSet<SqliteConnection> _activeConnections = new HashSet<SqliteConnection>();
+        private string _header;
         public MainWindow() => InitializeComponent();
 
-        private readonly HashSet<SqliteConnection> _activeConnections = new();
-        private string _header;
-
-        private void AboutMenu_Click(object sender, RoutedEventArgs e) => new AboutWindow()
+        private void AboutMenu_Click(object sender, RoutedEventArgs e) => new AboutWindow
         {
-            Owner = this,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
+            Owner = this, WindowStartupLocation = WindowStartupLocation.CenterOwner
         }.ShowDialog();
 
         private void NavigatorItem_Selected(object sender, RoutedEventArgs e)
@@ -63,6 +60,7 @@ namespace DbViewer
                 {
                     command.Connection.Close();
                 }
+
                 SqliteCommand commandKey = new()
                 {
                     Connection = command.Connection,
@@ -77,17 +75,13 @@ namespace DbViewer
                     {
                         string columnHeader = column.Header as string;
                         if (key.Contains(columnHeader))
-                        {
-                            column.Header = new StackPanel()
+                            column.Header = new StackPanel
                             {
                                 Orientation = Orientation.Horizontal,
                                 Children =
                                 {
-                                    new TextBlock()
-                                    {
-                                        Text = columnHeader
-                                    },
-                                    new Image()
+                                    new TextBlock { Text = columnHeader },
+                                    new Image
                                     {
                                         Height = 15,
                                         Margin = new Thickness(5, 0, 0, 0),
@@ -97,7 +91,6 @@ namespace DbViewer
                                     }
                                 }
                             };
-                        }
                     }
                 }
                 finally
@@ -124,15 +117,12 @@ namespace DbViewer
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            foreach (SqliteConnection connection in _activeConnections)
-            {
-                connection.Dispose();
-            }
+            foreach (SqliteConnection connection in _activeConnections) connection.Dispose();
         }
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new() { Filter = "SQLite 数据库文件 (*.db)|*.db" };
+            OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "SQLite 数据库文件 (*.db)|*.db" };
 
             if (openFileDialog.ShowDialog(this) != true)
                 return;
@@ -141,8 +131,7 @@ namespace DbViewer
             SqliteConnection connection = new() { ConnectionString = connectionStringBuilder.ToString() };
             using SqliteCommand command = new()
             {
-                CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';",
-                Connection = connection
+                CommandText = "SELECT sm.name FROM sqlite_master sm WHERE sm.type='table';", Connection = connection
             };
             try
             {
@@ -152,19 +141,16 @@ namespace DbViewer
                 List<string> tableList = reader.OfType<IDataRecord>()
                     .Select(r => r.GetString(0))
                     .OrderBy(s => s).ToList();
-                TreeViewItem node = new()
+                TreeViewItem node = new TreeViewItem
                 {
                     Header = openFileDialog.SafeFileName,
                     DataContext = connection,
                     ItemsSource = tableList,
-                    ContextMenu = new()
+                    ContextMenu = new ContextMenu()
                 };
                 if (node.ContextMenu != null)
                 {
-                    MenuItem item = new()
-                    {
-                        Header = "关闭连接"
-                    };
+                    MenuItem item = new MenuItem { Header = "关闭连接" };
                     item.Click += CloseConnection_Click;
                     node.ContextMenu.Items.Add(item);
                     node.ContextMenu.DataContext = node;
@@ -207,6 +193,7 @@ namespace DbViewer
                 {
                     command.Connection.Close();
                 }
+
                 SqliteCommand commandKey = new()
                 {
                     Connection = command.Connection,
@@ -221,24 +208,22 @@ namespace DbViewer
                     {
                         string columnHeader = column.Header as string;
                         if (key.Contains(columnHeader))
-                        {
-                            column.Header = new StackPanel()
+                            column.Header = new StackPanel
                             {
                                 Orientation = Orientation.Horizontal,
                                 Children =
+                                {
+                                    new TextBlock { Text = columnHeader },
+                                    new Image
                                     {
-                                        new TextBlock() {Text = columnHeader},
-                                        new Image()
-                                        {
-                                            Height = 15,
-                                            Margin = new Thickness(5, 0, 0, 0),
-                                            Stretch = Stretch.Uniform,
-                                            Source = new BitmapImage(new Uri("/Imageres_dll_077.png",
-                                                UriKind.Relative))
-                                        }
+                                        Height = 15,
+                                        Margin = new Thickness(5, 0, 0, 0),
+                                        Stretch = Stretch.Uniform,
+                                        Source = new BitmapImage(new Uri("/Imageres_dll_077.png",
+                                            UriKind.Relative))
                                     }
+                                }
                             };
-                        }
                     }
                 }
                 finally
@@ -257,9 +242,7 @@ namespace DbViewer
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (files.Any(s => s.EndsWith(".db", StringComparison.InvariantCultureIgnoreCase)))
-                {
                     e.Effects = DragDropEffects.Link;
-                }
             }
 
             e.Handled = true;
@@ -290,16 +273,16 @@ namespace DbViewer
                         List<string> tableList = reader.OfType<IDataRecord>()
                             .Select(r => r.GetString(0))
                             .OrderBy(s => s).ToList();
-                        TreeViewItem node = new()
+                        TreeViewItem node = new TreeViewItem
                         {
                             Header = file[(file.LastIndexOf('\\') + 1)..],
                             DataContext = connection,
                             ItemsSource = tableList,
-                            ContextMenu = new()
+                            ContextMenu = new ContextMenu()
                         };
                         if (node.ContextMenu != null)
                         {
-                            MenuItem item = new() { Header = "关闭连接" };
+                            MenuItem item = new MenuItem { Header = "关闭连接" };
                             item.Click += CloseConnection_Click;
                             node.ContextMenu.Items.Add(item);
                             node.ContextMenu.DataContext = node;
